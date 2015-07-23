@@ -1,13 +1,40 @@
 var app = angular.module('itunes');
 
 app.service('itunesService', function($http, $q){
-  //This service is what will do the 'heavy lifting' and get our data from the iTunes API.
-  //Also not that we're using a 'service' and not a 'factory' so all your method you want to call in your controller need to be on 'this'.
-
-  //Write a method that accepts an artist's name as the parameter, then makes a 'JSONP' http request to a url that looks like this
-  //https://itunes.apple.com/search?term=' + artist + '&callback=JSON_CALLBACK'
-  //Note that in the above line, artist is the parameter being passed in. 
-  //You can return the http request or you can make your own promise in order to manipulate the data before you resolve it.
-
-    //Code here
+ 
+    this.getArtist = function(artist){
+    	var deferred = $q.defer();
+    	$http({
+    		method: 'JSONP',
+    		url:'https://itunes.apple.com/search?term=' + artist + '&callback=JSON_CALLBACK'
+    	}).then(function(response){
+    		var myFinalArray = [];
+    		var songs = response.data.results;
+    		for(var i = 0; i < songs.length; i++){
+                var temp = {};
+                temp.AlbumArt = songs[i].artworkUrl60;
+                temp.Artist = songs[i].artistName;
+                temp.Collection = songs[i].collectionName;
+                temp.CollectionPrice = songs[i].collectionPrice;
+                temp.Play = songs[i].previewUrl;
+                temp.Type = songs[i].kind;
+				temp.SongName = songs[i].trackName;
+                myFinalArray.push(temp);
+                // myFinalArray.push(
+                //     AlbumArt: songs[i].artworkUrl30,
+                //     Artist: songs[i].artistName,
+                //     Collection: songs[i].collectionName,
+                //     CollectionPrice: songs[i].collectionPrice,
+                //     Play: songs[i].previewUrl,
+                //     Type: songs[i].kind,
+                //     SongName: songs[i].trackName
+                // );
+    		}
+        console.log(songs);
+        console.log(myFinalArray);
+	    deferred.resolve(myFinalArray);
+	    deferred.reject("YOU SCREW UP!");
+        });
+	return deferred.promise;
+    };
 });

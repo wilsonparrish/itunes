@@ -38,4 +38,4 @@ The concepts this project will cover are
 * Go back and look at the original data you're getting from iTunes. There is a lot more that you can play around with...
 * Add more columns to ng-grid so the user can see more options
 * Add a filtering option so they can filter by price, name, etc etc.
-* Also add a options dropdown so they can select which type of data they want from iTunes. Artist, song, movie, etc.(In other words, make it exactly like http://tylermcginnis.com/itunes)
+* Also add an options dropdown so they can select which type of data they want from iTunes. Artist, song, movie, etc.(In other words, make it exactly like http://tylermcginnis.com/itunes)
